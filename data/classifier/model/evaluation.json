@@ -1,0 +1,123 @@
+{
+  "accuracy": 0.6642857142857143,
+  "majority_class_baseline_accuracy": 0.14285714285714285,
+  "per_class": {
+    "Artificial Intelligence": {
+      "precision": 0.6,
+      "recall": 0.1,
+      "f1-score": 0.17142857142857143,
+      "support": 60.0
+    },
+    "Machine Learning": {
+      "precision": 0.527027027027027,
+      "recall": 0.65,
+      "f1-score": 0.582089552238806,
+      "support": 60.0
+    },
+    "Computer Vision": {
+      "precision": 0.5857142857142857,
+      "recall": 0.6833333333333333,
+      "f1-score": 0.6307692307692307,
+      "support": 60.0
+    },
+    "Natural Language Processing": {
+      "precision": 0.6,
+      "recall": 0.6,
+      "f1-score": 0.6,
+      "support": 60.0
+    },
+    "Robotics": {
+      "precision": 0.7846153846153846,
+      "recall": 0.85,
+      "f1-score": 0.816,
+      "support": 60.0
+    },
+    "Cyber Security": {
+      "precision": 0.6973684210526315,
+      "recall": 0.8833333333333333,
+      "f1-score": 0.7794117647058824,
+      "support": 60.0
+    },
+    "Cloud Computing": {
+      "precision": 0.8153846153846154,
+      "recall": 0.8833333333333333,
+      "f1-score": 0.848,
+      "support": 60.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      6,
+      13,
+      11,
+      16,
+      1,
+      11,
+      2
+    ],
+    [
+      1,
+      39,
+      7,
+      6,
+      4,
+      1,
+      2
+    ],
+    [
+      1,
+      5,
+      41,
+      1,
+      8,
+      4,
+      0
+    ],
+    [
+      0,
+      12,
+      5,
+      36,
+      0,
+      3,
+      4
+    ],
+    [
+      1,
+      3,
+      4,
+      1,
+      51,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      1,
+      0,
+      1,
+      53,
+      4
+    ],
+    [
+      0,
+      2,
+      1,
+      0,
+      0,
+      4,
+      53
+    ]
+  ],
+  "label_order": [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Computer Vision",
+    "Natural Language Processing",
+    "Robotics",
+    "Cyber Security",
+    "Cloud Computing"
+  ],
+  "missing_classes": []
+}

@@ -1,0 +1,7 @@
+{
+  "embedding_model": "nomic-embed-text",
+  "embedding_dims": 768,
+  "num_samples": 2800,
+  "samples_per_category": 400,
+  "test_accuracy": 0.6642857142857143
+}

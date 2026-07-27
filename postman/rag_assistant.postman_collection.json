@@ -1,0 +1,145 @@
+{
+  "info": {
+    "name": "AI Research & Knowledge Assistant",
+    "description": "REST API collection for the RAG-based research assistant backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "document_id", "value": "" },
+    { "key": "document_id_2", "value": "" },
+    { "key": "conversation_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        { "name": "Health check", "request": { "method": "GET", "url": "{{base_url}}/health" } },
+        { "name": "LLM provider health", "request": { "method": "GET", "url": "{{base_url}}/health/llm" } }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Upload document(s)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/documents",
+            "body": {
+              "mode": "formdata",
+              "formdata": [{ "key": "files", "type": "file", "src": [] }]
+            }
+          }
+        },
+        { "name": "List documents", "request": { "method": "GET", "url": "{{base_url}}/api/v1/documents?limit=50&offset=0" } },
+        { "name": "Get document", "request": { "method": "GET", "url": "{{base_url}}/api/v1/documents/{{document_id}}" } },
+        { "name": "Delete document", "request": { "method": "DELETE", "url": "{{base_url}}/api/v1/documents/{{document_id}}" } },
+        { "name": "Reprocess document", "request": { "method": "POST", "url": "{{base_url}}/api/v1/documents/{{document_id}}/reprocess" } },
+        { "name": "Get document chunks", "request": { "method": "GET", "url": "{{base_url}}/api/v1/documents/{{document_id}}/chunks" } },
+        {
+          "name": "Summarize document",
+          "request": { "method": "POST", "url": "{{base_url}}/api/v1/documents/{{document_id}}/summarize" }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Search (hybrid)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/search",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"residual learning framework\",\n  \"mode\": \"hybrid\",\n  \"top_k\": 8\n}"
+            }
+          }
+        },
+        {
+          "name": "Search (semantic)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/search",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"query\": \"how deep are the trained networks\",\n  \"mode\": \"semantic\",\n  \"top_k\": 8\n}" }
+          }
+        },
+        {
+          "name": "Search (keyword)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/search",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"query\": \"vanishing gradient problem\",\n  \"mode\": \"keyword\",\n  \"top_k\": 8\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Question Answering",
+      "item": [
+        {
+          "name": "Ask a question (new conversation)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/qa",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"question\": \"What method does this paper propose?\"\n}" }
+          }
+        },
+        {
+          "name": "Ask a follow-up (anaphora resolution)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/qa",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"question\": \"What are its limitations?\",\n  \"conversation_id\": \"{{conversation_id}}\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Compare",
+      "item": [
+        {
+          "name": "Compare two documents",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/compare",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document_ids\": [\"{{document_id}}\", \"{{document_id_2}}\"]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Classification",
+      "item": [
+        { "name": "List categories", "request": { "method": "GET", "url": "{{base_url}}/api/v1/classify/categories" } },
+        { "name": "Classify document", "request": { "method": "POST", "url": "{{base_url}}/api/v1/classify/{{document_id}}" } }
+      ]
+    },
+    {
+      "name": "Conversations",
+      "item": [
+        { "name": "Create conversation", "request": { "method": "POST", "url": "{{base_url}}/api/v1/conversations" } },
+        { "name": "List conversations", "request": { "method": "GET", "url": "{{base_url}}/api/v1/conversations" } },
+        { "name": "Get conversation history", "request": { "method": "GET", "url": "{{base_url}}/api/v1/conversations/{{conversation_id}}" } },
+        { "name": "Delete conversation", "request": { "method": "DELETE", "url": "{{base_url}}/api/v1/conversations/{{conversation_id}}" } }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        { "name": "Overview", "request": { "method": "GET", "url": "{{base_url}}/api/v1/analytics/overview" } },
+        { "name": "Top queried documents", "request": { "method": "GET", "url": "{{base_url}}/api/v1/analytics/top-documents?limit=10" } }
+      ]
+    }
+  ]
+}

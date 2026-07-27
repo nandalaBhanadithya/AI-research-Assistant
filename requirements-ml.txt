@@ -1,0 +1,4 @@
+# Additional dependencies needed only for offline dataset build / training / evaluation.
+# Not required to run the API itself (see requirements.txt).
+-r requirements.txt
+scikit-learn==1.6.1
