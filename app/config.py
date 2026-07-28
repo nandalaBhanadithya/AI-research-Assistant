@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     classifier_model_dir: Path = PROJECT_ROOT / "data" / "classifier" / "model"
 
     generation_provider: str = "groq"
+    embedding_provider: str = "ollama"  # "ollama" or "huggingface"
     fallback_to_local_on_error: bool = True
 
     ollama_base_url: str = "http://127.0.0.1:11434"
@@ -29,6 +30,9 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
     groq_base_url: str = "https://api.groq.com/openai/v1"
     groq_model: str = "llama-3.1-8b-instant"
+
+    hf_api_key: str = ""
+    hf_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
 
     rag_top_k: int = 8
     rag_relevance_floor: float = 0.15

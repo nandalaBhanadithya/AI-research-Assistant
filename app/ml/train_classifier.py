@@ -74,7 +74,8 @@ def main() -> None:
     if cached_embeddings_valid:
         logger.info("Loading cached embeddings from %s", embeddings_path)
     else:
-        logger.info("Generating embeddings via Ollama (%s)...", settings.ollama_embedding_model)
+        logger.info("Generating embeddings via %s (%s)...", settings.embedding_provider, 
+                    settings.ollama_embedding_model if settings.embedding_provider == "ollama" else settings.hf_embedding_model)
         x = asyncio.run(_embed_all(texts))
         y = np.array(labels, dtype="int64")
         np.save(embeddings_path, x)
@@ -108,7 +109,8 @@ def main() -> None:
     (model_dir / "metadata.json").write_text(
         json.dumps(
             {
-                "embedding_model": settings.ollama_embedding_model,
+                "embedding_provider": settings.embedding_provider,
+                "embedding_model": settings.ollama_embedding_model if settings.embedding_provider == "ollama" else settings.hf_embedding_model,
                 "embedding_dims": int(x.shape[1]),
                 "num_samples": len(texts),
                 "samples_per_category": SAMPLES_PER_CATEGORY,

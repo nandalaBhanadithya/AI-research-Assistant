@@ -6,6 +6,7 @@ from app.config import get_settings
 from app.core.exceptions import LLMProviderError
 from app.services.llm.base import GenerationResult
 from app.services.llm.groq_provider import GroqProvider
+from app.services.llm.hf_provider import HuggingFaceProvider
 from app.services.llm.ollama_provider import OllamaProvider
 
 logger = logging.getLogger(__name__)
@@ -57,6 +58,15 @@ def _groq_provider() -> GroqProvider:
 
 
 @lru_cache
+def _hf_provider() -> HuggingFaceProvider:
+    settings = get_settings()
+    return HuggingFaceProvider(
+        api_key=settings.hf_api_key,
+        embedding_model=settings.hf_embedding_model,
+    )
+
+
+@lru_cache
 def get_generation_provider() -> FallbackGenerationProvider:
     """Returns the active generation provider per GENERATION_PROVIDER, wrapped with
     fallback-to-local behavior if FALLBACK_TO_LOCAL_ON_ERROR is enabled."""
@@ -66,8 +76,15 @@ def get_generation_provider() -> FallbackGenerationProvider:
     return FallbackGenerationProvider(primary, fallback, enabled=settings.fallback_to_local_on_error)
 
 
-def get_embedding_provider() -> OllamaProvider:
-    """Embeddings ALWAYS run locally via Ollama, regardless of GENERATION_PROVIDER."""
+def get_embedding_provider():
+    """Returns the active embedding provider based on EMBEDDING_PROVIDER setting.
+    
+    Can be 'ollama' (local) or 'huggingface' (cloud API). For cloud deployment
+    without local Ollama, use 'huggingface'.
+    """
+    settings = get_settings()
+    if settings.embedding_provider == "huggingface":
+        return _hf_provider()
     return _ollama_provider()
 
 
@@ -75,9 +92,12 @@ async def check_provider_health() -> dict:
     settings = get_settings()
     ollama = _ollama_provider()
     groq = _groq_provider()
+    hf = _hf_provider()
     return {
         "active_generation_provider": settings.generation_provider,
+        "active_embedding_provider": settings.embedding_provider,
         "ollama_reachable": await ollama.is_reachable(),
         "groq_reachable": await groq.is_reachable() if settings.groq_api_key else None,
+        "huggingface_reachable": await hf.is_reachable() if settings.hf_api_key else None,
         "fallback_enabled": settings.fallback_to_local_on_error,
     }

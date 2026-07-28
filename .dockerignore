@@ -1,0 +1,58 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+.venv
+venv
+
+# Environment
+.env
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (will be created in container)
+data/uploads/*
+data/chroma/*
+data/sqlite/*
+!data/uploads/.gitkeep
+!data/chroma/.gitkeep
+!data/sqlite/.gitkeep
+
+# Logs
+*.log
+
+# Scripts (not needed in container)
+scripts/*.sh
+
+# Samples
+samples/*.pdf
+
+# Postman
+postman/*.json
+
+# Tests
+tests/
+.pytest_cache
+.coverage
+
+# Documentation
+README_SPACE.md
