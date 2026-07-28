@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ai-research-assistant
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: EMBEDDING_PROVIDER
+        value: huggingface
+      - key: GENERATION_PROVIDER
+        value: groq
+      - key: GROQ_API_KEY
+        sync: false
+      - key: HF_API_KEY
+        sync: false
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: HF_EMBEDDING_MODEL
+        value: sentence-transformers/all-MiniLM-L6-v2
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+    healthCheckPath: /health
